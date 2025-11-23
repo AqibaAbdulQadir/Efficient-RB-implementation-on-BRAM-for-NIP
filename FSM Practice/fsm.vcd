@@ -1,0 +1,123 @@
+$date
+	Tue Nov 11 22:07:37 2025
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module tb_fsm $end
+$var wire 1 ! open $end
+$var parameter 32 " CLK_PERIOD $end
+$var reg 1 # clk $end
+$var reg 2 $ coins [1:0] $end
+$var reg 1 % reset $end
+$scope module DUT $end
+$var wire 1 # clk $end
+$var wire 2 & coins [1:0] $end
+$var wire 1 % reset $end
+$var parameter 2 ' s0 $end
+$var parameter 2 ( s10 $end
+$var parameter 2 ) s15 $end
+$var parameter 2 * s5 $end
+$var reg 2 + curr [1:0] $end
+$var reg 2 , nxt [1:0] $end
+$var reg 1 ! open $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+b1 *
+b11 )
+b10 (
+b0 '
+b1010 "
+$end
+#0
+$dumpvars
+b0 ,
+b0 +
+b0 &
+1%
+b0 $
+0#
+0!
+$end
+#5000
+1#
+#6000
+0%
+#10000
+0#
+#15000
+b1 ,
+b1 $
+b1 &
+1#
+#20000
+0#
+#25000
+b10 ,
+b1 +
+1#
+#30000
+0#
+#35000
+b11 ,
+b10 +
+1#
+#40000
+0#
+#45000
+1!
+b11 +
+b10 ,
+b10 $
+b10 &
+1#
+#50000
+0#
+#55000
+0!
+b11 ,
+b10 +
+1#
+#60000
+0#
+#65000
+1!
+b11 +
+b1 ,
+b1 $
+b1 &
+1#
+#70000
+0#
+#75000
+0!
+b1 +
+b11 ,
+b10 $
+b10 &
+1#
+#80000
+0#
+#85000
+1!
+b11 +
+b0 ,
+b0 $
+b0 &
+1#
+#90000
+0#
+#95000
+0!
+b0 +
+1#
+#100000
+0#
+#105000
+1#
