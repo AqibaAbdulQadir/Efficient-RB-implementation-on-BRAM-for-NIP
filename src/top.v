@@ -1,11 +1,6 @@
 `include "params.vh"
 
-module top #(
-    // `include "params.vh",
-    parameter DATA_WIDTH_W = 8,   // write port width
-    parameter DATA_WIDTH_R = 32, // read port width
-    parameter BRAM_DEPTH  = 16384
-)(
+module top (
     input clk,
     input start,
     output complete,
