@@ -5,7 +5,6 @@ module tb_memory_module;
     always #5 clk = ~clk;
 
     // Control and data signals
-    reg w_a = 0;
     reg en_b = 0;
     reg en_a = 0;
     reg [7:0] data_in_a;
@@ -15,9 +14,8 @@ module tb_memory_module;
 
     // Instantiate the memory module
     memory_module uut (
-        // .clk(clk),
+        .clk(clk),
         .EN_A(en_a),
-        .W_A(w_a),
         .ADDR_A(addr_a),
         .DIN_A(data_in_a),
         .EN_B(en_b),
@@ -33,13 +31,11 @@ module tb_memory_module;
         // Write Phase: Write 16 8-bit values sequentially
         // -------------------------------------------------------
         en_a = 1;
-        w_a = 1;
         for (integer i = 0; i < 16; i = i + 1) begin
             data_in_a = i;
             addr_a = i;
             #10;
         end
-        w_a = 0;
         // en_a = 0;
 
         // -------------------------------------------------------

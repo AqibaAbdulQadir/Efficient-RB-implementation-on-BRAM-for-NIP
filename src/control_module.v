@@ -57,10 +57,10 @@ module control_module (
                 if (write_cnt == `BRAM_DEPTH) write_cnt <= 0;
                 else write_cnt <= write_cnt + 1;
             end
-            S_READ: begin
-                if (buff_add < `BRAM_DEPTH-1) buff_add <= buff_add + 1;
-                else buff_add <= 0;
-            end
+            // S_READ: begin
+            //     if (buff_add < `BRAM_DEPTH-1) buff_add <= buff_add + 1;
+            //     else buff_add <= 0;
+            // end
             S_RW: begin
                 if (rw_cnt == max_writes) rw_cnt <= 0;
                 else begin 
@@ -102,8 +102,8 @@ module control_module (
                 en_r_bram_addr = 1;
                 en_a = 0;
                 en_b = 1;
-                steer_en = 1;
-                steer = buff_add / `RB_DEPTH;
+                steer_en = 0;
+                // steer = buff_add / `RB_DEPTH;
             end
             S_RW: begin
                 en_e_mem_addr = 1;

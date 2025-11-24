@@ -51,7 +51,7 @@ module top (
     );
 
     memory_module mm (
-        // clk,
+        clk,
         en_a,
         W_BRAM_ADDR,
         data_in_a,
@@ -68,7 +68,7 @@ module top (
         out_mm, 
         hold_out
     );
-    always @(posedge clk) curr <= hold_out;
-    assign out = (en_e_mem_addr && en_r_bram_addr && !complete)? {data_in_a, curr}: {`K*`PIXEL_WIDTH{1'bz}};
+    // always @(posedge clk) curr <= hold_out;
+    assign out = (en_e_mem_addr && en_r_bram_addr && !complete)? {data_in_a, hold_out}: {`K*`PIXEL_WIDTH{1'bz}};
     // assign out = {data_in_a, hold_out};
 endmodule
