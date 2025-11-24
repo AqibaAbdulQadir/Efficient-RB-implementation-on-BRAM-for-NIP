@@ -23,7 +23,7 @@ def verify_windowed(linear_pixels, windowed_pixels, image_width):
     success = 1
     j = 0
     for i, window in enumerate(windowed_pixels):
-        window = window[::-1]
+        # window = window[::-1]
         col = i % image_width
         expected = [linear_pixels[row*image_width + col] for row in range(j, j + len(window))]
         if window != expected:
@@ -41,8 +41,8 @@ def verify_windowed(linear_pixels, windowed_pixels, image_width):
         print("Some windowed pixels do not match.")
 
 if __name__ == "__main__":
-    image_file = "img_2d.txt"
-    windowed_file = "pixels.txt"
+    image_file = "data/img_2d.txt"
+    windowed_file = "data/pixels.txt"
     image_width = 512  
 
     linear_pixels = read_linear_file(image_file)

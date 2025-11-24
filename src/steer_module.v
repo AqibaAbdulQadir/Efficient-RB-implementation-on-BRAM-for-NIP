@@ -1,13 +1,21 @@
 module steer_module (
-    input en,
-    input [1:0] sel,
-    input [7:0] in4, in3, in2, in1,
-    output [7:0] out4, out3, out2, out1
+    input  wire en,
+    input  wire [`RB_ADDR-1:0] sel,
+    input  wire [`BRAM_R_DATA_WIDTH-1:0] in,
+    output wire [`BRAM_R_DATA_WIDTH-1:0] out
 );
+    genvar i, j;
 
-    mux_4_to_1 m1(en, sel, in4, in1, in2, in3, out4); // [31:24]
-    mux_4_to_1 m2(en, sel, in3, in4, in1, in2, out3); // [23:16]
-    mux_4_to_1 m3(en, sel, in2, in3, in4, in1, out2); // [15: 8]
-    mux_4_to_1 m4(en, sel, in1, in2, in3, in4, out1); // [ 7: 0]
-    
+    generate
+        for(i = 0; i < `RBs; i = i + 1) begin : MUX_BANK
+            wire [`BRAM_R_DATA_WIDTH-1:0] rotated_in;
+            
+            // rotate the input for this mux
+            for(j = 0; j < `RBs; j = j + 1) begin : ROTATE
+                assign rotated_in[j*`PIXEL_WIDTH +: `PIXEL_WIDTH] = 
+                       in[((j+i)%`RBs)*`PIXEL_WIDTH +: `PIXEL_WIDTH];
+            end
+            mux_rb_to_1 m (en, sel, rotated_in, out[i*`PIXEL_WIDTH +: `PIXEL_WIDTH]);
+        end
+    endgenerate
 endmodule

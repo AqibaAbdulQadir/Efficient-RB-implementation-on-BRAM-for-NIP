@@ -1,26 +1,30 @@
+`include "params.vh"
+
 module top #(
+    // `include "params.vh",
     parameter DATA_WIDTH_W = 8,   // write port width
-    parameter DATA_WIDTH_R = 32,  // read port width
-    parameter BRAM_DEPTH   = 16384
+    parameter DATA_WIDTH_R = 32, // read port width
+    parameter BRAM_DEPTH  = 16384
 )(
     input clk,
     input start,
     output complete,
-    output [39:0] out
+    output [`K*`PIXEL_WIDTH-1:0] out
 );
+    
     wire en_e_mem_addr;
     wire en_w_bram_addr;
     wire en_r_bram_addr;
     wire en_a;
     wire en_b;
-    wire [31:0] E_MEM_ADDR;
-    wire [$clog2(BRAM_DEPTH / DATA_WIDTH_W)-1:0] W_BRAM_ADDR;
-    wire [$clog2(BRAM_DEPTH / DATA_WIDTH_R)-1:0] R_BRAM_ADDR;
-    wire [31:0] out_mm;
-    wire [1:0] steer;
-    wire [7:0] data_in_a;
-    wire [31:0] hold_out;
-    reg [31:0] curr;
+    wire [`EMEM_W_ADDR_WIDTH-1:0] E_MEM_ADDR;
+    wire [`BRAM_W_ADDR_WIDTH-1:0] W_BRAM_ADDR;
+    wire [`BRAM_R_ADDR_WIDTH-1:0] R_BRAM_ADDR;
+    wire [`BRAM_R_DATA_WIDTH-1:0] out_mm;
+    wire [`RB_ADDR-1:0] steer;
+    wire [`PIXEL_WIDTH-1:0] data_in_a;
+    wire [`BRAM_R_DATA_WIDTH-1:0] hold_out;
+    reg [`BRAM_R_DATA_WIDTH-1:0] curr;
     wire steer_en;
     
     control_module cm (        
@@ -66,10 +70,10 @@ module top #(
     steer_module sm (
         steer_en,
         steer,
-        out_mm[31:24], out_mm[23:16], out_mm[15:8], out_mm[7:0], 
-        hold_out[31:24], hold_out[23:16], hold_out[15:8], hold_out[7:0]
+        out_mm, 
+        hold_out
     );
     always @(posedge clk) curr <= hold_out;
-    assign out = (en_e_mem_addr && en_r_bram_addr && !complete)? {data_in_a, curr}:40'bz;
+    assign out = (en_e_mem_addr && en_r_bram_addr && !complete)? {data_in_a, curr}: {`K*`PIXEL_WIDTH{1'bz}};
     // assign out = {data_in_a, hold_out};
 endmodule
