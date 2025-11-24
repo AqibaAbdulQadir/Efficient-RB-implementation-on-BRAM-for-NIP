@@ -33,6 +33,7 @@ module control_module (
 
     // combinational next state logic
     always @(*) begin
+        next_state = state;
         if (start) next_state = S_IDLE;
         else begin
             case (state)
@@ -49,18 +50,14 @@ module control_module (
         state <= next_state;
         case (state)
             S_IDLE: begin
-                write_cnt = 0;
-                rw_cnt = 0;
-                buff_add = 0;
+                write_cnt <= 0;
+                rw_cnt <= 0;
+                buff_add <= 0;
             end
             S_WRITE: begin
                 if (write_cnt == `BRAM_DEPTH) write_cnt <= 0;
                 else write_cnt <= write_cnt + 1;
             end
-            // S_READ: begin
-            //     if (buff_add < `BRAM_DEPTH-1) buff_add <= buff_add + 1;
-            //     else buff_add <= 0;
-            // end
             S_RW: begin
                 if (rw_cnt == max_writes) rw_cnt <= 0;
                 else begin 
@@ -70,11 +67,11 @@ module control_module (
                 end
             end
             S_DONE: begin
-                write_cnt = 0;
-                rw_cnt = 0;
+                write_cnt <= 0;
+                rw_cnt <= 0;
             end
         endcase
-    end
+    end // Note: Sequential always blocks dont need default as they use registers either way
 
 
     // Combinational Output Logic
@@ -87,6 +84,7 @@ module control_module (
                 en_a = 0;
                 en_b = 0;
                 steer_en = 0;
+                steer = 0;
             end
             S_WRITE: begin
                 en_e_mem_addr = 1;
@@ -95,6 +93,7 @@ module control_module (
                 en_a = 1;
                 en_b = 0;
                 steer_en = 0;
+                steer = 0;
             end
             S_READ: begin
                 en_e_mem_addr = 0;
@@ -103,6 +102,7 @@ module control_module (
                 en_a = 0;
                 en_b = 1;
                 steer_en = 0;
+                steer = 0;
                 // steer = buff_add / `RB_DEPTH;
             end
             S_RW: begin
@@ -122,6 +122,7 @@ module control_module (
                 en_a = 0;
                 en_b = 0;
                 steer_en = 0;
+                steer = 0;
             end
         endcase
         complete = (state == S_DONE);
