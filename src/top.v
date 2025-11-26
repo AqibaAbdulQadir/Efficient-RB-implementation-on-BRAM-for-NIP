@@ -6,23 +6,25 @@ module top (
     output complete,
     output [`K*`PIXEL_WIDTH-1:0] out
 );
-    
+
     wire en_e_mem_addr;
     wire en_w_bram_addr;
     wire en_r_bram_addr;
     wire en_a;
     wire en_b;
     wire [`EMEM_W_ADDR_WIDTH-1:0] E_MEM_ADDR;
+    wire [`BRAM_ADDR-1:0] BRAM_W;
+    wire [`BRAM_DEPTH_ADDR-1:0] W_BRAM_ADDR;
     wire [`BRAM_R_ADDR_WIDTH-1:0] R_BRAM_ADDR;
-    wire [`BRAM_R_ADDR_WIDTH-1:0] W_BRAM_ADDR;
-    wire [`RB_ADDR-1:0] W_BRAM_RB_SEL;
+
+
     wire [`BRAM_R_DATA_WIDTH-1:0] out_mm;
     wire [`RB_ADDR-1:0] steer;
     wire [`PIXEL_WIDTH-1:0] data_in_a;
     wire [`BRAM_R_DATA_WIDTH-1:0] hold_out;
     reg [`BRAM_R_DATA_WIDTH-1:0] curr;
     wire steer_en;
-    
+
     control_module cm (        
         clk,
         start,
@@ -41,11 +43,12 @@ module top (
         en_e_mem_addr,
         en_w_bram_addr,
         en_r_bram_addr,
-        
+
         E_MEM_ADDR,
-        R_BRAM_ADDR,
+
+        BRAM_W,
         W_BRAM_ADDR,
-        W_BRAM_RB_SEL
+        R_BRAM_ADDR 
     );
 
     external_memory_module em(
@@ -56,9 +59,10 @@ module top (
     memory_module mm (
         clk,
         en_a,
+        BRAM_W,
         W_BRAM_ADDR,
-        W_BRAM_RB_SEL,
         data_in_a,
+
         en_b,
         R_BRAM_ADDR,
         out_mm

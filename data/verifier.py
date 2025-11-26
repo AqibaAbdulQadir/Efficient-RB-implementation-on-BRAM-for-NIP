@@ -36,7 +36,7 @@ def verify_windowed(linear_pixels, windowed_pixels, image_width):
         if i % image_width == image_width - 1:
             j += 1
     if success:
-        print("All windowed pixels match the linear pixels!")
+        print(f"All windowed pixels match the linear pixels for K = {len(window)}")
     else:
         print("Some windowed pixels do not match.")
 
