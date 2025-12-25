@@ -1,0 +1,16 @@
+parameter K = 11, // Kernel Size(Usually odd numbered)
+parameter RB_DEPTH = 512,
+parameter EMEM_W_ADDR_WIDTH = 32, // external memory of 4GB
+parameter PIXEL_WIDTH = 8,
+parameter IMAGE_SIZE = 512*512,
+parameter BRAM_DEPTH_ADDR = 11, // in pixels
+parameter BRAMs = (((K-1) + 4 - 1) >> 2), // as ceil(A / B)    (A + B - 1) / B
+parameter RBs = (K-1), //(BRAM_DEPTH / RB_DEPTH)
+parameter TOTAL_DEPTH = (RBs * RB_DEPTH), // can be BRAMS*2048  later see // in terms of pixels(1 BRAM has 16K(2^14) locs or space of 2^11 pixels)
+parameter BRAM_W_ADDR_WIDTH = ($clog2(TOTAL_DEPTH)), // can be used for writing address bits in BRAM
+parameter BRAM_R_ADDR_WIDTH = ($clog2(RB_DEPTH)), // can be used for writing address bits in BRAM
+parameter BRAM_R_DATA_WIDTH = (RBs * PIXEL_WIDTH), // in terms of bits
+parameter BRAM_W_DATA_WIDTH = (PIXEL_WIDTH), // in terms of bits
+parameter RB_ADDR = ($clog2(RBs)),
+parameter BRAM_ADDR = ($clog2(BRAMs)),
+parameter IMAGE_ADDR = ($clog2(IMAGE_SIZE))
