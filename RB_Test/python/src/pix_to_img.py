@@ -1,8 +1,9 @@
 from PIL import Image
 import numpy as np
+from constants import PIXELS_PATH
 
 
-f = "C:\\Users\\LENOVO\\RB_Test\\RB_Test.sim\\sim_1\\behav\\xsim\\pixels.mem"
+f = PIXELS_PATH
 with open(f, "r") as f:
     file_ = f.read()
     hex_values = file_.split()

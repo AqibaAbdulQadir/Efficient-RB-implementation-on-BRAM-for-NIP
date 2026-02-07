@@ -1,5 +1,7 @@
+from constants import PIXELS_PATH
+
 f1 = "src_data\\golden.hex"
-f2 = "C:\\Users\\LENOVO\\RB_Test\\RB_Test.sim\\sim_1\\behav\\xsim\\pixels.mem" # Change this path to your path of pixels.mem file
+f2 = PIXELS_PATH
 
 with open(f1, "r") as a:
     lst1 = a.read().split("\n")
