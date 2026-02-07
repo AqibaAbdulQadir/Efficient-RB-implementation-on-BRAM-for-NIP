@@ -1,4 +1,4 @@
-# Efficient Row Buffer Implementation on BRAM for Neighbourhood Image Processing
+<img width="646" height="490" alt="wallpaper" src="https://github.com/user-attachments/assets/c2939644-f4e4-4acc-b51e-bbb1323a98ed" /># Efficient Row Buffer Implementation on BRAM for Neighbourhood Image Processing
 
 A BRAM18-optimized FPGA row buffer architecture for real-time K×K neighbourhood image processing, based on Kazmi et al.
 
@@ -79,7 +79,7 @@ Main modules:
         │ ├── img_2d.txt
         │ ├── pixels.mem                 # Simulation output (generated) will be stored here
         │ └── kernel.mem        
-        ├── python/
+        └── python/
             ├── src/
             │ ├── compare_filtered.py
             │ ├── filter_test.py
@@ -194,16 +194,29 @@ pip install numpy pillow
 ```bash
 python -m src.img_to_pix       # converts image → linear memory format (ext_mem.mem) so the RB_test pipeline can access the image from memory
 python -m src.pix_to_img       # converts RTL output pixels → image (Run after simulating the result from RTL)
+python -m src.filter_test      # generates golden reference convolution image
 python -m src.compare_filtered # compares RTL output vs golden reference
 ```
 - You can change the kernel type from kernel.mem file. You can add a new picture in src_data folder.
 - You must add reference path of pixels.mem(output of RTL) and source picture path in [constants.py](RB_Test/python/constants.py). 
+#### Results
+##### Original Picture
+<img width="646" height="490" alt="wallpaper" src="https://github.com/user-attachments/assets/6d99b70c-0552-4e09-bb25-afd44addf3eb" />
+##### Convoluted Picture
+<img width="510" height="510" alt="output" src="https://github.com/user-attachments/assets/d95fd1e6-b966-4a62-a883-669077178deb" />
+
+3x3 Vertical Kernel used:
+```
+010002
+000000
+FFFEFF
+```
+**IMPORTANT NOTE:** Write transpose of kernel as piepline outputs data in column-major order. This complexity might be simplified in the future.
 
 ## Current Limitation
 The design currently supports only **512×512 images**. Future work includes generalizing address generation for arbitrary image sizes.
 
 ## Citation
-
 If you use this implementation in research, please cite:
 
 Kazmi, M., et al.,  
