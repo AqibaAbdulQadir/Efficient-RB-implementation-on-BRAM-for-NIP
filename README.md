@@ -1,4 +1,4 @@
-<img width="646" height="490" alt="wallpaper" src="https://github.com/user-attachments/assets/c2939644-f4e4-4acc-b51e-bbb1323a98ed" /># Efficient Row Buffer Implementation on BRAM for Neighbourhood Image Processing
+# Efficient Row Buffer Implementation on BRAM for Neighbourhood Image Processing
 
 A BRAM18-optimized FPGA row buffer architecture for real-time K×K neighbourhood image processing, based on Kazmi et al.
 
@@ -200,10 +200,10 @@ python -m src.compare_filtered # compares RTL output vs golden reference
 - You can change the kernel type from kernel.mem file. You can add a new picture in src_data folder.
 - You must add reference path of pixels.mem(output of RTL) and source picture path in [constants.py](RB_Test/python/constants.py). 
 #### Results
-##### Original Picture
-<img width="646" height="490" alt="wallpaper" src="https://github.com/user-attachments/assets/6d99b70c-0552-4e09-bb25-afd44addf3eb" />
-##### Convoluted Picture
-<img width="510" height="510" alt="output" src="https://github.com/user-attachments/assets/d95fd1e6-b966-4a62-a883-669077178deb" />
+#### *Original Picture*
+<img width="100" height="100" alt="wallpaper" src="https://github.com/user-attachments/assets/6d99b70c-0552-4e09-bb25-afd44addf3eb" />
+#### *Convoluted Picture*
+<img width="100" height="100" alt="output" src="https://github.com/user-attachments/assets/d95fd1e6-b966-4a62-a883-669077178deb" />
 
 3x3 Vertical Kernel used:
 ```
