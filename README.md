@@ -22,15 +22,6 @@ The design minimizes BRAM usage and supports real-time streaming window generati
 - Simulation-ready testbenches included
 - An IP(component.xml file) to easily integrate the NIP pipeline to your design
 
-## Key Features
-
-- Parameterized image width and pixel depth
-- Efficient BRAM utilization
-- Supports sliding window (NxN) neighborhood operations
-- Fully synchronous design
-- Suitable for real-time image streaming
-- Scalable for different FPGA devices
-
 ## Architecture Overview
 
 The system buffers incoming pixel streams into BRAM-based row memories.
@@ -74,6 +65,36 @@ Main modules:
     ├── ip/                               # Generated Vivado IP metadata
     │   └── component.xml
     │
+    ├──RB_test/
+        ├── sim/
+        │ ├── ext_mem.mem
+        │ ├── external_memory_module.v
+        │ ├── kernel.mem
+        │ └── tb_top.v
+        ├── src/
+        │ └── top.v                      # Utilises RB project IP 
+        ├── RB_data/
+        │ ├── ext_mem.mem
+        │ ├── img_2d
+        │ ├── img_2d.txt
+        │ ├── pixels.mem                 # Simulation output (generated) will be stored here
+        │ └── kernel.mem        
+        ├── python/
+            ├── src/
+            │ ├── compare_filtered.py
+            │ ├── filter_test.py
+            │ ├── img_to_pix.py
+            │ └── pix_to_img.py
+            ├── src_data/
+            │ ├── conv.png
+            │ ├── golden.hex
+            │ ├── golden.png
+            │ ├── lenna.png
+            │ ├── neduet.png
+            │ ├── output.png
+            │ └── wallpaper.png
+            └── constants.py
+
     └── FSM Practice/                     # Additional FSM learning experiments
         ├── fsm.v
         ├── tb_fsm.v
@@ -120,7 +141,7 @@ Example:
 ```verilog
 parameter K = 3;
 ```
-## 📊 Synthesized Resource Utilization
+## Resource Utilization
 
 The design was synthesized for Xilinx FPGA targets using **BRAM18-based row buffering**.
 Resource usage was evaluated for different neighbourhood kernel sizes (K×K) while keeping the image resolution fixed at **512×512**.
@@ -150,6 +171,33 @@ The table below summarizes the overall FPGA cost as well as module-level breakdo
 - BRAM usage increases gradually with larger kernel sizes due to additional row storage requirements.
 - The control module (CM) dominates LUT usage for mid-range kernels (e.g., K=11, K=17).
 - The architecture remains compact even for larger neighbourhood windows, demonstrating the efficiency of the proposed design.
+
+## RB_Test Convolution Demo
+Validates streaming K×K neighbourhoods and correct MAC-based convolution output.
+- top.v: Row buffer + MAC-based convolution wrapper
+- tb_top.v: Full image testbench
+- external_memory_module.v: Input memory model
+- kernel.mem: Convolution coefficients
+- pixels.mem: Simulation output
+
+### Workflow to test pipeline
+#### Python Dependencies
+First, make sure you have the following Python packages installed:
+
+```bash
+pip install numpy pillow
+```
+- Numpy  → for array manipulations and convolution calculations
+- Pillow → for reading/writing images
+
+#### Commands to execute to test pipline
+```bash
+python -m src.img_to_pix       # converts image → linear memory format (ext_mem.mem) so the RB_test pipeline can access the image from memory
+python -m src.pix_to_img       # converts RTL output pixels → image (Run after simulating the result from RTL)
+python -m src.compare_filtered # compares RTL output vs golden reference
+```
+- You can change the kernel type from kernel.mem file. You can add a new picture in src_data folder.
+- You must add reference path of pixels.mem(output of RTL) and source picture path in [constants.py](RB_Test/python/constants.py). 
 
 ## Current Limitation
 The design currently supports only **512×512 images**. Future work includes generalizing address generation for arbitrary image sizes.
