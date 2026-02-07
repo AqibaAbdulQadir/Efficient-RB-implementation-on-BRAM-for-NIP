@@ -200,11 +200,11 @@ python -m src.compare_filtered # compares RTL output vs golden reference
 - You must add reference path of pixels.mem(output of RTL) and source picture path in [constants.py](RB_Test/python/constants.py). 
 #### Results
 #### *Original Picture*
-<img width="300" height="300" alt="wallpaper" src="https://github.com/user-attachments/assets/6d99b70c-0552-4e09-bb25-afd44addf3eb" />
+<img width="512" height="512" alt="conv" src="https://github.com/user-attachments/assets/4c8a20ce-b98a-4585-8db7-16a84d47f3a2" />
 
 
 #### *Convoluted Picture*
-<img width="300" height="300" alt="output" src="https://github.com/user-attachments/assets/d95fd1e6-b966-4a62-a883-669077178deb" />
+<img width="510" height="510" alt="output" src="https://github.com/user-attachments/assets/d95fd1e6-b966-4a62-a883-669077178deb" />
 
 3x3 Vertical Kernel used:
 ```
