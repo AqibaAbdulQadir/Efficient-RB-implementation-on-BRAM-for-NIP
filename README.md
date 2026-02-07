@@ -4,8 +4,7 @@ A BRAM18-optimized FPGA row buffer architecture for real-time K×K neighbourhood
 
 ## Background
 
-Neighbourhood image processing (NIP) operations such as convolution, filtering, and edge detection require fast access to pixel windows.
-
+Neighbourhood image processing (NIP) operations such as convolution, filtering, and edge detection require fast access to pixel windows and 1 pixel/cycle throughput.
 This repository implements the efficient and compact row buffer architecture proposed in:
 
 M. Kazmi et al.,  
@@ -216,7 +215,7 @@ FFFEFF
 **IMPORTANT NOTE:** Write transpose of kernel as piepline outputs data in column-major order. This complexity might be simplified in the future.
 
 ## Current Limitation
-The design currently supports only **512×512 images**. Future work includes generalizing address generation for arbitrary image sizes.
+The design currently supports only **512×512 gray-scale images**. Future work includes generalizing address generation for arbitrary image sizes.
 
 ## Citation
 If you use this implementation in research, please cite:
