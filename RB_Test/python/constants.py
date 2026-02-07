@@ -1,0 +1,1 @@
+SRC_PNG = "src_data\\wallpaper.png"
